@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
 export class StudentsComponent implements OnInit
 {
   students: Student[] = [];
-  displayedColumns: string[] = ['firstName', 'lastName', 'dateOfBirth', 'email', 'mobile', 'gender'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'dateOfBirth', 'email', 'mobile', 'gender', 'edit'];
   dataSource: MatTableDataSource<Student> = new MatTableDataSource<Student>();
   @ViewChild(MatPaginator) matPaginator! : MatPaginator;
   @ViewChild(MatSort) matSort! : MatSort;
@@ -23,11 +23,11 @@ export class StudentsComponent implements OnInit
 
   ngOnInit(): void{
 
-    this.stuService.getStudent().subscribe(
+    this.stuService.getStudents().subscribe(
       (successResponse)=> {
         this.students = successResponse;
         this.dataSource = new MatTableDataSource<Student>(this.students);
-
+        console.log("lenght of student"+this.students.length);
         if(this.matPaginator){
           this.dataSource.paginator = this.matPaginator;
         }
