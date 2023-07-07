@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Student } from 'src/app/models/api-models/student.model';
 import { GenderService } from 'src/app/Services/gender.service';
 import { Gender } from 'src/app/models/ui-models/gender.uimodel';
@@ -16,7 +16,8 @@ export class ViewStudentComponent implements OnInit {
   constructor(private readonly stuService: StudentService, 
               private readonly route: ActivatedRoute, 
               private genderService: GenderService,
-              private snackBar: MatSnackBar ){}
+              private snackBar: MatSnackBar,
+              private router: Router ){}
   
   studentId: string | null | undefined;
   student: Student = {
@@ -63,6 +64,20 @@ export class ViewStudentComponent implements OnInit {
         console.log("Error while updating record");
       }
 
+    )
+  }
+
+  OnDelete(): void{
+    this.stuService.deleteStudent(this.student.id).subscribe(
+      (successResponse) => {
+        this.snackBar.open("Student Deleted Successfully.",undefined, {
+          duration: 2000
+        });
+
+      setTimeout(() => {
+        this.router.navigateByUrl("/");
+      }, 2000);
+      }
     )
   }
 }

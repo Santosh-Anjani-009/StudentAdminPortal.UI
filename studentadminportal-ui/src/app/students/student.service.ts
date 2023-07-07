@@ -34,4 +34,8 @@ export class StudentService {
 
     return this.httpClnt.put<Student>(this.baseApiUrl+"/students/"+studentId, updateStuRequest)
   }
+
+  deleteStudent(studentId: string): Observable<Student>{ 
+    return this.httpClnt.delete<Student>(this.baseApiUrl+"/students/"+studentId)
+  }
 }
