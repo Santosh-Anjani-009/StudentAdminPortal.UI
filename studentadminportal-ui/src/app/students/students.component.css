@@ -18,3 +18,7 @@ table{
 .search-input:focus{
     border: 1px solid #aaa;
 }
+
+.btn-add-new-student{
+    margin-left: 5px !important;
+}

@@ -25,20 +25,34 @@ export class ViewStudentComponent implements OnInit {
     gender:{id:"",description:""}, address:{id:"", physicalAddress:"", postalAddress:""}
   }
   genders: Gender[] = [];
+  
+  isNewStudent: boolean = false;
+  header ='';
 
   ngOnInit(): void{
     this.route.paramMap.subscribe((params)=> {
       this.studentId = params.get('id');
+
       if(this.studentId != null)
       {
-        this.stuService.getStudent(this.studentId)
-        .subscribe(
-          (successResponse)=>{
-            this.student = successResponse;
-            console.log(successResponse);
-          }
-        );
+        // if route contains Add , the new student functionality, otherwise, existing student functionality
+        if(this.studentId.toLowerCase()== "Add".toLowerCase())
+        {
+          this.isNewStudent = true;
+          this.header = 'Add new student';
 
+        }else
+        {
+          this.header = 'Edit student';
+          this.stuService.getStudent(this.studentId)
+          .subscribe(
+            (successResponse)=>{
+              this.student = successResponse;
+              console.log(successResponse);
+            }
+          );
+        }
+        
         this.genderService.getGenders().subscribe(
           (successResponse)=>{
             this.genders = successResponse;
@@ -79,5 +93,25 @@ export class ViewStudentComponent implements OnInit {
       }, 2000);
       }
     )
+  }
+
+  OnAdd():void{
+   this.stuService.addStudent(this.student).subscribe(
+    (successResponse)=> {
+      this.snackBar.open("Student Added Successfully.", undefined, {
+        duration: 2000
+      });
+
+      setTimeout(() => {
+        this.router.navigateByUrl("/");
+      }, 2000);
+
+    },
+    (errorResponse)=>{
+      this.snackBar.open("Error occured while adding details.", undefined, {
+        duration: 2000
+      });
+    }
+   );
   }
 }

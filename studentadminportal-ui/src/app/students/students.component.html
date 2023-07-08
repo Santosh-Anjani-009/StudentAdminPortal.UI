@@ -8,6 +8,7 @@
   <div class="row end-xs">
     <div class="col-xs-12">
       <input type="text" class="search-input" placeholder="search students"  (keyup)="filterStudent()" [(ngModel)]="filterString">
+      <a routerLink="/student/add" mat-raised-button color="primary" class="btn-add-new-student"> Add new student</a>
     </div>
   </div>
 
